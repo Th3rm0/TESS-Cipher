@@ -45,7 +45,7 @@ def encryption(phrase, shift):
         i += numberShift
         
         # Decreases the character to be inside of the character set
-        while i > len(characterSet) - 1:
+        while i >= len(characterSet):
             
             i -= len(characterSet)
         
