@@ -1,7 +1,8 @@
 # This system is the Transformational Enhanced Shift System (TESS)
-# To encrypt, if takes a phrase and a shift value, 
+# To encrypt, it takes a phrase and a shift value, 
 
-alphabet = [
+# Contains all the different characters
+characterSet = [
     "A", "a", "B", "b", "C", "c", "D", "d",
     "E", "e", "F", "f", "G", "g", "H", "h",
     "I", "i", "J", "j", "K", "k", "L", "l", 
@@ -18,117 +19,92 @@ alphabet = [
     "\'", "\"", "<", ".", ">", "/", "?",
 ]
 
-def save_to_file(item, shift):
-
-    with open("TESS.txt", "a") as f:
-
-        f.write(f"{item} <|> {shift}\n")
-
-def read_from_file():
-
-    with open("TESS.txt", "r") as f:
-
-        for line in f.readlines():
-
-            data = line.rstrip()
-
-            item, shift = data.split(" <|> ")
-
-            print(f"Item: {item}\nShift: {shift}")
-
-def read_and_decrypt(master_password):
-
-    if master_password == decryption("IlGhM1T9V", 3):
-
-        with open("TESS.txt", "r") as f:
-
-            for line in f.readlines():
-
-                data = line.rstrip()
-
-                password, shift = data.split(" <|> ")
-
-                print(decryption(password, shift))
-    
-    else:
-
-        print("Incorrect password")
-
+# Function for encrypt
 def encryption(phrase, shift):
     
-    encrypted_phrase = ""
-    number_shift = 0
+    # Contains the encrypted phrase
+    encryptedPhrase = ""
     
+    # Contains the total shift
+    numberShift = 0
+    
+    # Goes through each character in the phrase
     for letter in phrase:
         
         i = 0
         
-        while letter != alphabet[i]:
+        # Finds the character in the character set
+        while letter != characterSet[i]:
             
             i += 1
         
-        number_shift += shift
+        # Increases the shift
+        numberShift += shift
         
-        i += number_shift
+        # Increments the character
+        i += numberShift
         
-        while i > len(alphabet) - 1:
+        # Decreases the character to be inside of the character set
+        while i > len(characterSet) - 1:
             
-            i -= len(alphabet)
+            i -= len(characterSet)
         
-        print(alphabet[i])
+        # Adds the encrypted character to the encrypted phrase
+        encryptedPhrase += characterSet[i]
 
-        encrypted_phrase += alphabet[i]
+    # Returns the encrypted phrase
+    return encryptedPhrase
 
-    return encrypted_phrase
-
+# Function for decrypting
 def decryption(phrase, shift):
     
-    decrypted_phrase = ""
-    number_shift = 0
+    # Contains the decrypted phrase
+    decryptedPhrase = ""
     
+    # Contains the total shift
+    numberShift = 0
+    
+    # Goes through each character in the phrase
     for letter in phrase:
         
         i = 0
         
-        while letter != alphabet[i]:
+        # Finds the character in the character set
+        while letter != characterSet[i]:
             
             i += 1
 
-        number_shift += int(shift)
+        # Increments the shift
+        numberShift += shift
 
-        i -= number_shift
+        # Decrements the character
+        i -= numberShift
         
+        #Increases the character to be inside the character set
         while i < 0:
             
-            i += len(alphabet)
+            i += len(characterSet)
                 
-        decrypted_phrase += alphabet[i]
+        # Adds the decrypted character to the to the decrypted phrase
+        decryptedPhrase += characterSet[i]
     
-    return decrypted_phrase
+    # Returns the decrypted phrase
+    return decryptedPhrase
 
-while True:
+phrase = input("Enter phrase: ")
+shift = int(input("Enter shift: ")
 
-    choice = input("\nWhat would you like to do (encrypt/decrypt/save/read/q)? ").lower()
+# Asks the user to chose encryption or decryption
+encryptOrDecrypt = input("\nWhat would you like to do (e/d)? ").lower()
 
-    if choice == "q":
+# Option to encrypt
+if encryptOrDecrypt == "e":
 
-        break
-    if choice == "encrypt":
+    encryptedPhrase = encryption(phrase, shift)
+    print(encryptedPhrase)
 
-        print(encryption(input("Phrase: "), int(input("Shift: "))))
-    
-    elif choice == "decrypt":
+# Option to decrypt
+elif encryptOrDecrypt == "e":
 
-        print(decryption(input("Phrase: "), int(input("Shift: "))))
-
-    elif choice == "save":
-
-        save_to_file(input("Item: "), input("Shift: "))
-    
-    elif choice == "read":
-
-        read_from_file()
-
-    elif choice == "master decryption":
-
-        read_and_decrypt(input("Password: "))
+    decryptedPhrase = decryption(phrase, shift)
+    print(decryptedPhrase)
