@@ -64,5 +64,5 @@ while i < 0:
 
 After making `i` within the index value of `characterSet`, `characterSet[i]` is added to `encryptedPhrase`
 
-##Notes:
+## Notes:
 - Code literally sucks and needed to be recoded
